@@ -1,7 +1,7 @@
 # Página pública de CV · Emilia Millón
 
-Sitio estático en inglés, listo para GitHub Pages. Dos pestañas:
-- `index.html` — CV completo (generado desde la base maestra).
+Sitio estático en inglés (por defecto), español y portugués — botón EN / ES / PT arriba a la derecha; también `?lang=es` o `?lang=pt` en la dirección. Dos pestañas:
+- `index.html` — CV completo en una página larga, con accesos a Research, Education, Publications, Teaching y Contact.
 - `talks.html` — galería "Talks & seminars" con fotos de seminarios y presentaciones.
 
 ## Agregar fotos a la galería
@@ -15,9 +15,8 @@ Sitio estático en inglés, listo para GitHub Pages. Dos pestañas:
 - `.nojekyll` — publica los archivos tal cual.
 
 ## Publicar en GitHub Pages
-1. Crear en github.com un repositorio público llamado **emiliamillon.github.io**.
-2. Subir todo el contenido de esta carpeta (Add file → Upload files) a la rama `main`.
-3. Settings → Pages → Deploy from a branch → `main` / root. Queda en https://emiliamillon.github.io
+Repositorio: https://github.com/emiliamillon/webpage → la página queda en https://emiliamillon.github.io/webpage/ (Settings → Pages → Deploy from a branch → `main` / root).
+Después de cada cambio: commit + push (GitHub Desktop o `git add -A && git commit -m "update" && git push`).
 
 ## Actualizar el CV
 Pedirle a Claude que regenere `index.html` desde la base (`CV_Master_Base_Emilia_Millon.md`) y los Word del CV.

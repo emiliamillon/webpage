@@ -16,13 +16,22 @@
 </head>
 <body><header class="top"><div class="wrap">
   <a class="brand" href="index.html"><span class="sq" aria-hidden="true"></span>Emilia Millón</a>
-  <nav class="tabs" aria-label="Pages"><a href="index.html">CV</a><a href="talks.html" aria-current="page">Talks &amp; seminars</a></nav>
+  <nav class="tabs" data-lang="en" aria-label="Sections"><a href="index.html" class="anc">CV</a><a href="talks.html" class="tab" aria-current="page">Talks &amp; seminars</a></nav><nav class="tabs" data-lang="es" aria-label="Secciones" hidden><a href="index.html" class="anc">CV</a><a href="talks.html" class="tab" aria-current="page">Charlas y seminarios</a></nav><nav class="tabs" data-lang="pt" aria-label="Seções" hidden><a href="index.html" class="anc">CV</a><a href="talks.html" class="tab" aria-current="page">Palestras e seminários</a></nav>
+  <div class="lsw" role="group" aria-label="Language"><button type="button" data-set="en">EN</button><button type="button" data-set="es">ES</button><button type="button" data-set="pt">PT</button></div>
 </div></header>
 <main>
-<section class="page-head"><div class="wrap">
+<section class="page-head"><div class="wrap" data-lang="en">
   <p class="kicker"><span class="sq" aria-hidden="true"></span>Talks &amp; seminars</p>
   <h1>On the road</h1>
   <p class="intro">Moments from seminars, conferences, workshops and presentations.</p>
+</div><div class="wrap" data-lang="es" hidden>
+  <p class="kicker"><span class="sq" aria-hidden="true"></span>Charlas y seminarios</p>
+  <h1>En movimiento</h1>
+  <p class="intro">Momentos de seminarios, congresos, talleres y presentaciones.</p>
+</div><div class="wrap" data-lang="pt" hidden>
+  <p class="kicker"><span class="sq" aria-hidden="true"></span>Palestras e seminários</p>
+  <h1>Em movimento</h1>
+  <p class="intro">Momentos de seminários, congressos, oficinas e apresentações.</p>
 </div></section>
 <div class="wrap" id="gallery"><noscript>Enable JavaScript to see the gallery.</noscript></div>
 </main>
@@ -32,30 +41,34 @@
   <figure><img alt=""><figcaption></figcaption></figure>
   <button class="next" type="button" aria-label="Next">→</button>
 </div>
-<footer class="foot"><div class="wrap">
-  <span>Emilia Millón &nbsp;/&nbsp; <a href="mailto:emillon@face.unt.edu.ar">emillon@face.unt.edu.ar</a></span>
-  <span>Last updated November 2026 <span class="sq" aria-hidden="true"></span></span>
-</div></footer>
+<footer class="foot"><div class="wrap"><span>Emilia Millón &nbsp;/&nbsp; <a href="mailto:emillon@face.unt.edu.ar">emillon@face.unt.edu.ar</a></span><span data-lang="en">Last updated November 2026 <span class="sq" aria-hidden="true"></span></span><span data-lang="es" hidden>Actualizado en noviembre de 2026 <span class="sq" aria-hidden="true"></span></span><span data-lang="pt" hidden>Atualizado em novembro de 2026 <span class="sq" aria-hidden="true"></span></span></div></footer>
 <script src="assets/gallery/gallery-data.js"></script>
 <script>
 (function(){
+  var SOON={"en": "Photo coming soon", "es": "Foto próximamente", "pt": "Foto em breve"};
+  var MONTHS={en:['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],es:['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'],pt:['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez']};
   var data=(window.GALLERY||[]).slice().sort(function(a,b){return (b.date||'').localeCompare(a.date||'');});
-  var root=document.getElementById('gallery'), byYear={}, years=[], withImg=[];
+  var root=document.getElementById('gallery'),withImg=[],lang='en';
   function e(s){var d=document.createElement('div');d.textContent=s||'';return d.innerHTML;}
-  function nice(d){if(!d)return'';var p=d.split('-');var m=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];return (p[1]?m[+p[1]-1]+' ':'')+p[0];}
-  data.forEach(function(x){var y=(x.date||'').slice(0,4)||'—';if(!byYear[y]){byYear[y]=[];years.push(y);}byYear[y].push(x);});
-  var html='';
-  years.forEach(function(y){
-    html+='<h2 class="year"><span class="sq" aria-hidden="true"></span>'+e(y)+'</h2><div class="grid">';
-    byYear[y].forEach(function(x){
-      var cap='<figcaption><span class="when">'+e(nice(x.date))+'</span><span class="what">'+e(x.title)+'</span><span class="where">'+e(x.event)+(x.place?' · '+e(x.place):'')+'</span></figcaption>';
-      if(x.src){var i=withImg.length;withImg.push(x);
-        html+='<figure class="card"><button type="button" data-i="'+i+'" aria-label="Open photo: '+e(x.title)+'"><img class="thumb" loading="lazy" src="assets/gallery/'+encodeURI(x.src)+'" alt="'+e(x.alt||x.title)+'"></button>'+cap+'</figure>';}
-      else html+='<figure class="card"><div class="ph">Photo coming soon</div>'+cap+'</figure>';
+  function nice(d){if(!d)return'';var p=d.split('-');return (p[1]?MONTHS[lang][+p[1]-1]+' ':'')+p[0];}
+  function render(){
+    var byYear={},years=[];withImg=[];
+    data.forEach(function(x){var y=(x.date||'').slice(0,4)||'—';if(!byYear[y]){byYear[y]=[];years.push(y);}byYear[y].push(x);});
+    var h='';
+    years.forEach(function(y){
+      h+='<h2 class="year"><span class="sq" aria-hidden="true"></span>'+e(y)+'</h2><div class="grid">';
+      byYear[y].forEach(function(x){
+        var cap='<figcaption><span class="when">'+e(nice(x.date))+'</span><span class="what">'+e(x.title)+'</span><span class="where">'+e(x.event)+(x.place?' · '+e(x.place):'')+'</span></figcaption>';
+        if(x.src){var i=withImg.length;withImg.push(x);
+          h+='<figure class="card"><button type="button" data-i="'+i+'" aria-label="'+e(x.title)+'"><img class="thumb" loading="lazy" src="assets/gallery/'+encodeURI(x.src)+'" alt="'+e(x.alt||x.title)+'"></button>'+cap+'</figure>';}
+        else h+='<figure class="card"><div class="ph">'+e(SOON[lang])+'</div>'+cap+'</figure>';
+      });
+      h+='</div>';
     });
-    html+='</div>';
-  });
-  root.innerHTML=html||'<p>No photos yet.</p>';
+    root.innerHTML=h;
+  }
+  window.onLang=function(l){lang=l;render();};
+  lang=window.CVLANG||'en'; render();
   var lb=document.getElementById('lb'),img=lb.querySelector('img'),fc=lb.querySelector('figcaption'),cur=0,last=null;
   function show(i){cur=(i+withImg.length)%withImg.length;var x=withImg[cur];img.src='assets/gallery/'+encodeURI(x.src);img.alt=x.alt||x.title;fc.textContent=nice(x.date)+' · '+x.title+' — '+x.event+(x.place?', '+x.place:'');}
   function open(i){last=document.activeElement;show(i);lb.hidden=false;lb.querySelector('.x').focus();}
@@ -66,4 +79,21 @@
   document.addEventListener('keydown',function(ev){if(lb.hidden)return;if(ev.key==='Escape')close();if(ev.key==='ArrowLeft')show(cur-1);if(ev.key==='ArrowRight')show(cur+1);});
 })();
 </script>
-</body></html>
+<script>
+(function(){
+  var TT={"en": "Talks & seminars · Emilia Millón", "es": "Charlas y seminarios · Emilia Millón", "pt": "Palestras e seminários · Emilia Millón"};
+  function set(l){
+    document.querySelectorAll('[data-lang]').forEach(function(b){b.hidden=b.getAttribute('data-lang')!==l;});
+    document.querySelectorAll('.lsw button').forEach(function(b){b.setAttribute('aria-pressed',b.dataset.set===l);});
+    document.documentElement.lang=l; document.title=TT[l];
+    try{localStorage.setItem('cv-lang',l);}catch(e){}
+    if(window.onLang) window.onLang(l);
+  }
+  var q=new URLSearchParams(location.search).get('lang'),s=null;
+  try{s=localStorage.getItem('cv-lang');}catch(e){}
+  var l=q||s||'en'; if(['en','es','pt'].indexOf(l)<0) l='en';
+  window.CVLANG=l;
+  document.querySelectorAll('.lsw button').forEach(function(b){b.addEventListener('click',function(){window.CVLANG=b.dataset.set;set(b.dataset.set);});});
+  set(l);
+})();
+</script></body></html>
